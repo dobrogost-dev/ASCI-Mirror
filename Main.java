@@ -2,6 +2,7 @@ package asciimirror;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,15 +25,75 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.out.println("File not found!");
         }
-        for (String line : list) {
-            int diffirence = longest - line.length();
-            StringBuilder str = new StringBuilder(line);
+        format(list, longest);
+        ArrayList<String> mirrored = mirroredList(list);
+        showWithMirror(list, mirrored);
+    }
+    public static void format(ArrayList<String> list, int longest) {
+        for (int i = 0; i < list.toArray().length; i++) {
+            int diffirence = longest - list.get(i).length();
+            StringBuilder str = new StringBuilder(list.get(i));
             while (diffirence > 0) {
                 str.append(" ");
                 diffirence--;
             }
-            line = str.toString();
-            System.out.print(line + " | " + line + "\n");
+            list.set(i, str.toString());
         }
+    }
+    public static void showWithMirror(ArrayList<String> list, ArrayList<String> mirrored) {
+        for (int i = 0; i < list.toArray().length; i++) {
+            System.out.print(list.get(i) + " | " + mirrored.get(i) + "\n");
+        }
+    }
+    public static ArrayList<String> mirroredList(ArrayList<String> list) {
+        ArrayList<String> newList = new ArrayList<>(list);
+        for (int i = 0; i < list.toArray().length; i++) {
+            newList.set(i, mirrored(list.get(i)));
+        }
+        return newList;
+    }
+    public static String mirrored(String line) {
+        StringBuilder str = new StringBuilder("");
+        for (int i = line.length() - 1; i >= 0; i--) {
+            char c = line.charAt(i);
+            switch (c) {
+                case '<':
+                    c = '>';
+                    break;
+                case '>':
+                    c = '<';
+                    break;
+                case '/':
+                    c = '\\';
+                    break;
+                case '\\':
+                    c = '/';
+                    break;
+                case '[':
+                    c = ']';
+                    break;
+                case ']':
+                    c = '[';
+                    break;
+                case '{':
+                    c = '}';
+                    break;
+                case '}':
+                    c = '{';
+                    break;
+                case '(':
+                    c = ')';
+                    break;
+                case ')':
+                    c = '(';
+                    break;
+            }
+            if (c == ' ') {
+                str.append(' ');
+            } else {
+                str.append(c);
+            }
+        }
+        return str.toString();
     }
 }
