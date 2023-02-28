@@ -9,11 +9,13 @@ public class Main {
         System.out.println("Input the file path:");
         Scanner scanner2 = new Scanner(System.in);
         String path = scanner2.nextLine();
-        System.out.println(path);
-        System.out.print("            ^__^\n" +
-                "    _______/(oo)\n" +
-                "/\\/(       /(__)\n" +
-                "   | w----||    \n" +
-                "   ||     ||    ");
+        File file = new File(path);
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNext()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+        }
     }
 }
